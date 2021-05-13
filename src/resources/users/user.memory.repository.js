@@ -14,29 +14,13 @@ const getById = async (id) => {
     return user;
 };
 
-const deleteUser = async (id) => {
-    const removedUser = await getById(id);
-
-    if (!removedUser) {
-        throw new Error('User not found');
-    }
-
-    return User.instances.splice(User.instances.indexOf(removedUser), 1)[0];
-};
-
-const createUser = async (userData) => {
-    const newUser = {
-        name: userData.name,
-        login: userData.login,
-        password: userData.password,
-    };
-
-    const user = await new User(newUser);
+const create = async (userData) => {
+    const user = await new User(userData);
 
     return user;
 };
 
-const updateUser = async (id, newUserData) => {
+const update = async (id, newUserData) => {
     const user = await getById(id);
 
     if (!user) {
@@ -50,4 +34,14 @@ const updateUser = async (id, newUserData) => {
     return user;
 };
 
-module.exports = { getAll, getById, deleteUser, createUser, updateUser };
+const remove = async (id) => {
+    const removedUser = await getById(id);
+
+    if (!removedUser) {
+        throw new Error('User not found');
+    }
+
+    return User.instances.splice(User.instances.indexOf(removedUser), 1)[0];
+};
+
+module.exports = { getAll, getById, remove, create, update };

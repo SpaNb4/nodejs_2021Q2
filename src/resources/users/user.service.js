@@ -10,19 +10,19 @@ const getById = async (id) => {
     return user;
 };
 
-const createUser = async (userData) => {
-    const user = await usersRepo.createUser(userData);
+const create = async (userData) => {
+    const user = await usersRepo.create(userData);
     return user;
 };
 
-const updateUser = async (id, newUserData) => {
-    const user = await usersRepo.updateUser(id, newUserData);
+const update = async (id, newUserData) => {
+    const user = await usersRepo.update(id, newUserData);
     return user;
 };
 
-const deleteUser = async (id) => {
-    const user = usersRepo.deleteUser(id);
+const remove = async (id) => {
+    const user = usersRepo.remove(id);
     return user;
 };
 
-module.exports = { getAll, getById, createUser, updateUser, deleteUser };
+module.exports = { getAll, getById, create, update, remove };
