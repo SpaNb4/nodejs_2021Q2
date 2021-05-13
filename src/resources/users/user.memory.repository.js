@@ -1,4 +1,5 @@
 const User = require('./user.model');
+const tasksRepo = require('../tasks/tasks.memory.repository');
 
 User.instances = [];
 
@@ -39,6 +40,16 @@ const remove = async (id) => {
 
     if (!removedUser) {
         throw new Error('User not found');
+    }
+
+    const tasks = await tasksRepo.getAll();
+
+    if (tasks.length) {
+        tasks.forEach(async (task) => {
+            if (task.userId === id) {
+                await tasksRepo.update(task.id, { ...task, userId: null });
+            }
+        });
     }
 
     return User.instances.splice(User.instances.indexOf(removedUser), 1)[0];

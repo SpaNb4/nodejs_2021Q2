@@ -31,6 +31,8 @@ const update = async (id, newTaskData) => {
     task.order = newTaskData.order;
     task.description = newTaskData.description;
     task.userId = newTaskData.userId;
+    task.boardId = newTaskData.boardId;
+    task.columnId = newTaskData.columnId;
 
     return task;
 };

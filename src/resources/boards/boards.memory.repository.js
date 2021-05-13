@@ -1,4 +1,5 @@
 const Board = require('./boards.model');
+const tasksRepo = require('../tasks/tasks.memory.repository');
 
 Board.instances = [];
 
@@ -27,7 +28,7 @@ const update = async (id, newBoardData) => {
         throw new Error('Board not found');
     }
 
-	board.title = newBoardData.title;
+    board.title = newBoardData.title;
     board.columns = newBoardData.columns;
 
     return board;
@@ -38,6 +39,16 @@ const remove = async (id) => {
 
     if (!removedBoard) {
         throw new Error('Board not found');
+    }
+
+    const tasks = await tasksRepo.getAll();
+
+    if (tasks.length) {
+        tasks.forEach(async (task) => {
+            if (task.boardId === id) {
+                await tasksRepo.remove(task.id);
+            }
+        });
     }
 
     return Board.instances.splice(Board.instances.indexOf(removedBoard), 1)[0];
