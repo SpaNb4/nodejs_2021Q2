@@ -1,11 +1,11 @@
-const User = require('./user.model');
+const User = require('./users.model');
 const tasksRepo = require('../tasks/tasks.memory.repository');
 
 User.instances = [];
 
 /**
- * User memory repository module
- * @module user.memory.repository
+ * Users memory repository module
+ * @module users_memory_repository
  */
 
 /**
@@ -16,7 +16,7 @@ const getAll = async () => User.instances;
 
 /**
  * Get user by ID
- * @param {number} id User ID
+ * @param {string} id User ID
  * @return {(Promise<User>|Error)} Received user or error
  */
 const getById = async (id) => {
@@ -45,7 +45,7 @@ const create = async (userData) => {
 
 /**
  * Update user's data
- * @param {number} id User ID
+ * @param {string} id User ID
  * @param {Object} newUserData New user's data
  * @param {string} newUserData.name User name
  * @param {string} newUserData.login User login
@@ -68,7 +68,7 @@ const update = async (id, newUserData) => {
 
 /**
  * Remove user
- * @param {number} id User ID
+ * @param {string} id User ID
  * @return {(Promise<User>|Error)} Removed user or error
  */
 const remove = async (id) => {

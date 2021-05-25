@@ -3,8 +3,22 @@ const tasksRepo = require('../tasks/tasks.memory.repository');
 
 Board.instances = [];
 
+/**
+ * Boards memory repository module
+ * @module boards_memory_repository
+ */
+
+/**
+ * Get all boards
+ * @return {Promise<Board[]>} All boards array
+ */
 const getAll = async () => Board.instances;
 
+/**
+ * Get board by ID
+ * @param {string} id Board ID
+ * @return {(Promise<Board>|Error)} Received board or error
+ */
 const getById = async (id) => {
     const board = Board.instances.find((_board) => _board.id === id);
 
@@ -15,12 +29,27 @@ const getById = async (id) => {
     return board;
 };
 
+/**
+ * Create new board
+ * @param {Object} boardData Data for board creation
+ * @param {string} boardData.title Board title
+ * @param {column[]} boardData.columns Board columns
+ * @return {Promise<Board>} Created board
+ */
 const create = async (boardData) => {
     const board = await new Board(boardData);
 
     return board;
 };
 
+/**
+ * Update board's data
+ * @param {string} id Board ID
+ * @param {Object} newBoardData New board's data
+ * @param {string} newBoardData.title Board title
+ * @param {column[]} newBoardData.columns Board columns
+ * @return {(Promise<Board>|Error)} Updated board or error
+ */
 const update = async (id, newBoardData) => {
     const board = await getById(id);
 
@@ -34,6 +63,11 @@ const update = async (id, newBoardData) => {
     return board;
 };
 
+/**
+ * Remove board
+ * @param {string} id Board ID
+ * @return {(Promise<Board>|Error)} Removed board or error
+ */
 const remove = async (id) => {
     const removedBoard = await getById(id);
 

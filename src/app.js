@@ -2,7 +2,7 @@ const express = require('express');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const YAML = require('yamljs');
-const userRouter = require('./resources/users/user.router');
+const userRouter = require('./resources/users/users.router');
 const boardRouter = require('./resources/boards/boards.router');
 const taskRouter = require('./resources/tasks/tasks.router');
 
