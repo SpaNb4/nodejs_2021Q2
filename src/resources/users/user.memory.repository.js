@@ -3,8 +3,22 @@ const tasksRepo = require('../tasks/tasks.memory.repository');
 
 User.instances = [];
 
+/**
+ * User memory repository module
+ * @module user.memory.repository
+ */
+
+/**
+ * Get all users
+ * @return {Promise<User[]>} All users array
+ */
 const getAll = async () => User.instances;
 
+/**
+ * Get user by ID
+ * @param {number} id User ID
+ * @return {(Promise<User>|Error)} Received user or error
+ */
 const getById = async (id) => {
     const user = User.instances.find((_user) => _user.id === id);
 
@@ -15,12 +29,29 @@ const getById = async (id) => {
     return user;
 };
 
+/**
+ * Create new user
+ * @param {Object} userData Data for user creation
+ * @param {string} userData.name User name
+ * @param {string} userData.login User login
+ * @param {string} userData.password User password
+ * @return {Promise<User>} Created user
+ */
 const create = async (userData) => {
     const user = await new User(userData);
 
     return user;
 };
 
+/**
+ * Update user's data
+ * @param {number} id User ID
+ * @param {Object} newUserData New user's data
+ * @param {string} newUserData.name User name
+ * @param {string} newUserData.login User login
+ * @param {string} newUserData.password User password
+ * @return {(Promise<User>|Error)} Updated user or error
+ */
 const update = async (id, newUserData) => {
     const user = await getById(id);
 
@@ -35,6 +66,11 @@ const update = async (id, newUserData) => {
     return user;
 };
 
+/**
+ * Remove user
+ * @param {number} id User ID
+ * @return {(Promise<User>|Error)} Removed user or error
+ */
 const remove = async (id) => {
     const removedUser = await getById(id);
 
