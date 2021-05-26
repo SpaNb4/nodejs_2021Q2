@@ -10,16 +10,23 @@ const { v4: uuidv4 } = require('uuid');
 
 /**
  * Board type definition
- * @typedef {Object} Board
- * @property {string} id Board ID
- * @property {string} title Board title
- * @property {column[]} columns Board columns
  */
-
 class Board {
     constructor({ title, columns }) {
+        /**
+         * Board id
+         * @type {string}
+         */
         this.id = uuidv4();
+        /**
+         * Board title
+         * @type {string}
+         */
         this.title = title;
+        /**
+         * Board columns
+         * @type {column[]}
+         */
         this.columns = columns.map((column) => ({ ...column, id: uuidv4() }));
         Board.instances.push(this);
     }
