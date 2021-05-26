@@ -1,28 +1,49 @@
 const usersRepo = require('./users.memory.repository');
 
-const getAll = async () => {
-    const users = await usersRepo.getAll();
-    return users;
-};
+/**
+ * Users service module
+ * @module users_service
+ */
 
-const getById = async (id) => {
-    const user = await usersRepo.getById(id);
-    return user;
-};
+/**
+ * Call getAll() and return all users
+ * @return {User[]} All users array
+ */
+const getAll = async () => usersRepo.getAll();
 
-const create = async (userData) => {
-    const user = await usersRepo.create(userData);
-    return user;
-};
+/**
+ * Call getById() and return user
+ * @param {string} id User ID
+ * @return {User} Received user
+ */
+const getById = async (id) => usersRepo.getById(id);
 
-const update = async (id, newUserData) => {
-    const user = await usersRepo.update(id, newUserData);
-    return user;
-};
+/**
+ * Call create() and create new user
+ * @param {Object} userData Data for user creation
+ * @param {string} userData.name User name
+ * @param {string} userData.login User login
+ * @param {string} userData.password User password
+ * @return {User} Created user
+ */
+const create = async (userData) => usersRepo.create(userData);
 
-const remove = async (id) => {
-    const user = usersRepo.remove(id);
-    return user;
-};
+/**
+ * Call update() and update user's data
+ * @param {string} id User ID
+ * @param {Object} newUserData New user's data
+ * @param {string} newUserData.name User name
+ * @param {string} newUserData.login User login
+ * @param {string} newUserData.password User password
+ * @return {User} Updated user
+ */
+const update = async (id, newUserData) => usersRepo.update(id, newUserData);
+
+/**
+ * Call remove() and remove user
+ * @param {string} id User ID
+ * @return {User} Removed user
+ */
+const remove = async (id) => usersRepo.remove(id);
 
 module.exports = { getAll, getById, create, update, remove };
