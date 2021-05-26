@@ -13,18 +13,22 @@ const { v4: uuidv4 } = require('uuid');
 class User {
     constructor({ name, login, password }) {
         /**
+         * User ID
          * @type {string}
          */
         this.id = uuidv4();
         /**
+         * User name
          * @type {string}
          */
         this.name = name;
         /**
+         * User login
          * @type {string}
          */
         this.login = login;
         /**
+         * User password
          * @type {string}
          */
         this.password = password;

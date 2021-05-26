@@ -6,20 +6,20 @@ const usersRepo = require('./users.memory.repository');
  */
 
 /**
- * Call getAll() and return all users
+ * Call getAll() function
  * @return {User[]} All users array
  */
 const getAll = async () => usersRepo.getAll();
 
 /**
- * Call getById() and return user
+ * Call getById() function
  * @param {string} id User ID
  * @return {User} Received user
  */
 const getById = async (id) => usersRepo.getById(id);
 
 /**
- * Call create() and create new user
+ * Call create() function
  * @param {Object} userData Data for user creation
  * @param {string} userData.name User name
  * @param {string} userData.login User login
@@ -29,7 +29,7 @@ const getById = async (id) => usersRepo.getById(id);
 const create = async (userData) => usersRepo.create(userData);
 
 /**
- * Call update() and update user's data
+ * Call update() function
  * @param {string} id User ID
  * @param {Object} newUserData New user's data
  * @param {string} newUserData.name User name
@@ -40,7 +40,7 @@ const create = async (userData) => usersRepo.create(userData);
 const update = async (id, newUserData) => usersRepo.update(id, newUserData);
 
 /**
- * Call remove() and remove user
+ * Call remove() function
  * @param {string} id User ID
  * @return {User} Removed user
  */

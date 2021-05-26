@@ -1,28 +1,55 @@
 const tasksRepo = require('./tasks.memory.repository');
 
-const getAll = async () => {
-    const tasks = await tasksRepo.getAll();
-    return tasks;
-};
+/**
+ * Tasks service module
+ * @module tasks_service
+ */
 
-const getById = async (id) => {
-    const task = await tasksRepo.getById(id);
-    return task;
-};
+/**
+ * Call getAll() function
+ * @return {Task[]} All tasks array
+ */
+const getAll = async () => tasksRepo.getAll();
 
-const create = async (taskData) => {
-    const task = await tasksRepo.create(taskData);
-    return task;
-};
+/**
+ * Call getById() function
+ * @param {string} id Task ID
+ * @return {Task} Received task
+ */
+const getById = async (id) => tasksRepo.getById(id);
 
-const update = async (id, newTaskData) => {
-    const task = await tasksRepo.update(id, newTaskData);
-    return task;
-};
+/**
+ * Call create() function
+ * @param {Object} taskData Data for task creation
+ * @param {string} taskData.title Task title
+ * @param {string} taskData.order Task order
+ * @param {string} taskData.description Task description
+ * @param {string} taskData.userId Task userId
+ * @param {string} taskData.boardId Task boardId
+ * @param {string} taskData.columnId Task columnId
+ * @return {Task} Created task
+ */
+const create = async (taskData) => tasksRepo.create(taskData);
 
-const remove = async (id) => {
-    const task = tasksRepo.remove(id);
-    return task;
-};
+/**
+ * Call update() function
+ * @param {string} id Task ID
+ * @param {Object} taskData Data for task creation
+ * @param {string} taskData.title Task title
+ * @param {string} taskData.order Task order
+ * @param {string} taskData.description Task description
+ * @param {string} taskData.userId Task userId
+ * @param {string} taskData.boardId Task boardId
+ * @param {string} taskData.columnId Task columnId
+ * @return {Task} Updated task
+ */
+const update = async (id, newTaskData) => tasksRepo.update(id, newTaskData);
+
+/**
+ * Call remove() function
+ * @param {string} id Task ID
+ * @return {(Promise<Task>|Error)} Removed task
+ */
+const remove = async (id) => tasksRepo.remove(id);
 
 module.exports = { getAll, getById, create, update, remove };
