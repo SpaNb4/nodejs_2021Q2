@@ -7,13 +7,12 @@
         "node": true
     },
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint"],
     "settings": {
         "noInlineConfig": true
     },
     "extends": [
         "eslint:recommended",
-        "airbnb-base",
+        "airbnb-typescript/base",
         "prettier",
         "plugin:node/recommended",
         "plugin:import/typescript",
@@ -26,7 +25,6 @@
         "no-underscore-dangle": "off",
         "import/prefer-default-export": "off",
         "no-console": "off",
-        "node/no-missing-import": "off",
         "dot-notation": "off",
         "lines-between-class-members": "off",
         "@typescript-eslint/no-non-null-assertion": "off"

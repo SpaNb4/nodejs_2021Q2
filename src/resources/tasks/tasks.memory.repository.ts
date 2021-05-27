@@ -31,7 +31,9 @@ const update = async (id: string, newTaskData: ITaskWithoutId): Promise<Task> =>
     task.title = newTaskData.title;
     task.order = newTaskData.order;
     task.description = newTaskData.description;
+
     task.userId = newTaskData.userId;
+
     task.boardId = newTaskData.boardId;
     task.columnId = newTaskData.columnId;
 
