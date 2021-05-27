@@ -1,4 +1,5 @@
-const usersRepo = require('./users.memory.repository');
+import * as usersRepo from './users.memory.repository';
+import User from './users.model';
 
 /**
  * Users service module
@@ -9,14 +10,14 @@ const usersRepo = require('./users.memory.repository');
  * Call getAll() function
  * @return {User[]} All users array
  */
-const getAll = async () => usersRepo.getAll();
+const getAll = async (): Promise<User[]> => usersRepo.getAll();
 
 /**
  * Call getById() function
  * @param {string} id User ID
  * @return {User} Received user
  */
-const getById = async (id) => usersRepo.getById(id);
+const getById = async (id: string): Promise<User> => usersRepo.getById(id);
 
 /**
  * Call create() function
@@ -26,7 +27,7 @@ const getById = async (id) => usersRepo.getById(id);
  * @param {string} userData.password User password
  * @return {User} Created user
  */
-const create = async (userData) => usersRepo.create(userData);
+const create = async (userData: any): Promise<User> => usersRepo.create(userData);
 
 /**
  * Call update() function
@@ -37,13 +38,13 @@ const create = async (userData) => usersRepo.create(userData);
  * @param {string} newUserData.password User password
  * @return {User} Updated user
  */
-const update = async (id, newUserData) => usersRepo.update(id, newUserData);
+const update = async (id: string, newUserData: any): Promise<User> => usersRepo.update(id, newUserData);
 
 /**
  * Call remove() function
  * @param {string} id User ID
  * @return {User} Removed user
  */
-const remove = async (id) => usersRepo.remove(id);
+const remove = async (id: string): Promise<User>  => usersRepo.remove(id);
 
-module.exports = { getAll, getById, create, update, remove };
+export { getAll, getById, create, update, remove };

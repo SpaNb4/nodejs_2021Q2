@@ -1,5 +1,5 @@
-const User = require('./users.model');
-const tasksRepo = require('../tasks/tasks.memory.repository');
+import User from './users.model';
+import tasksRepo from '../tasks/tasks.memory.repository';
 
 User.instances = [];
 
@@ -71,7 +71,7 @@ const update = async (id, newUserData) => {
  * @param {string} id User ID
  * @return {(Promise<User>|Error)} Removed user or error
  */
-const remove = async (id) => {
+const remove = async (id: string): Promise<User> => {
     const removedUser = await getById(id);
 
     if (!removedUser) {
@@ -88,7 +88,7 @@ const remove = async (id) => {
         });
     }
 
-    return User.instances.splice(User.instances.indexOf(removedUser), 1)[0];
+    return User.instances.splice(User.instances.indexOf(removedUser), 1)[0]!;
 };
 
-module.exports = { getAll, getById, remove, create, update };
+export { getAll, getById, remove, create, update };
