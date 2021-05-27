@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request } from 'express';
 import * as tasksService from './tasks.service';
 
 const router = express.Router({ mergeParams: true });
@@ -17,8 +18,9 @@ router.route('/:id').get(async (req, res) => {
     }
 });
 
-router.route('/').post(async (req, res) => {
-    const task = await tasksService.create({ ...req.body, boardId: req.params.id });
+router.route('/').post(async (req: Request, res) => {
+    const boardId = req.params['id'];
+    const task = await tasksService.create({ ...req.body, boardId });
     res.status(201).json(task);
 });
 

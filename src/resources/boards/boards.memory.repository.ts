@@ -1,7 +1,6 @@
 import Board from './boards.model';
 import Task from '../tasks/tasks.model';
 import * as tasksRepo from '../tasks/tasks.memory.repository';
-import { IBoardWithoutId } from './boards.interfaces';
 
 Board.instances = [];
 
@@ -17,13 +16,13 @@ const getById = async (id: string): Promise<Board> => {
     return board;
 };
 
-const create = async (boardData: IBoardWithoutId): Promise<Board> => {
+const create = async (boardData: Board): Promise<Board> => {
     const board = await new Board(boardData);
 
     return board;
 };
 
-const update = async (id: string, newBoardData: IBoardWithoutId): Promise<Board> => {
+const update = async (id: string, newBoardData: Board): Promise<Board> => {
     const board = await getById(id);
 
     if (!board) {

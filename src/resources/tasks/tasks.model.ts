@@ -5,7 +5,7 @@ class Task {
     title: string;
     order: number;
     description: string;
-    userId: string;
+    userId: any;
     boardId: string;
     columnId: string;
     static instances: Task[];

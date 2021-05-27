@@ -1,7 +1,6 @@
 import User from './users.model';
 import * as tasksRepo from '../tasks/tasks.memory.repository';
-import Task from '../tasks/tasks.model';
-import { IUserWithoutId } from './users.interfaces';
+import Task from './../tasks/tasks.model';
 
 User.instances = [];
 
@@ -17,13 +16,13 @@ const getById = async (id: string): Promise<User> => {
     return user;
 };
 
-const create = async (userData: IUserWithoutId): Promise<User> => {
+const create = async (userData: User): Promise<User> => {
     const user = await new User(userData);
 
     return user;
 };
 
-const update = async (id: string, newUserData: IUserWithoutId): Promise<User> => {
+const update = async (id: string, newUserData: User): Promise<User> => {
     const user = await getById(id);
 
     if (!user) {

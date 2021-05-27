@@ -1,5 +1,4 @@
 import Task from './tasks.model';
-import { ITaskWithoutId } from './tasks.interfaces';
 
 Task.instances = [];
 
@@ -15,13 +14,13 @@ const getById = async (id: string): Promise<Task> => {
     return task;
 };
 
-const create = async (taskData: ITaskWithoutId): Promise<Task> => {
+const create = async (taskData: Task): Promise<Task> => {
     const task = await new Task(taskData);
 
     return task;
 };
 
-const update = async (id: string, newTaskData: ITaskWithoutId): Promise<Task> => {
+const update = async (id: string, newTaskData: Task): Promise<Task> => {
     const task = await getById(id);
 
     if (!task) {
@@ -31,9 +30,7 @@ const update = async (id: string, newTaskData: ITaskWithoutId): Promise<Task> =>
     task.title = newTaskData.title;
     task.order = newTaskData.order;
     task.description = newTaskData.description;
-
     task.userId = newTaskData.userId;
-
     task.boardId = newTaskData.boardId;
     task.columnId = newTaskData.columnId;
 

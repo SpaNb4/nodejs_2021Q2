@@ -3,9 +3,3 @@ export interface IUserWithoutPassword {
     name: string;
     login: string;
 }
-
-export interface IUserWithoutId {
-    name: string;
-    login: string;
-    password: string;
-}
