@@ -1,47 +1,33 @@
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
-/**
- * Task type definition
- */
 class Task {
-    constructor({ title, order, description, userId, boardId, columnId }) {
-        /**
-         * Task ID
-         * @type {string}
-         */
-        this.id = uuidv4();
-        /**
-         * Task title
-         * @type {string}
-         */
+    id: string;
+    title: string;
+    order: number;
+    description: string;
+    userId: string;
+    boardId: string;
+    columnId: string;
+    static instances: Task[];
+
+    constructor({
+        id = uuidv4(),
+        title = 'title',
+        order = 1,
+        description = 'description',
+        userId = 'userId',
+        boardId = 'boardId',
+        columnId = 'columnId',
+    } = {}) {
+        this.id = id;
         this.title = title;
-        /**
-         * Task order
-         * @type {string}
-         */
         this.order = order;
-        /**
-         * Task description
-         * @type {string}
-         */
         this.description = description;
-        /**
-         * Task userId
-         * @type {string}
-         */
         this.userId = userId;
-        /**
-         * Task boardId
-         * @type {string}
-         */
         this.boardId = boardId;
-        /**
-         * Task columnId
-         * @type {string}
-         */
         this.columnId = columnId;
         Task.instances.push(this);
     }
 }
 
-module.exports = Task;
+export default Task;

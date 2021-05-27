@@ -1,24 +1,11 @@
-const Task = require('./tasks.model');
+import Task from './tasks.model';
+import { ITaskWithoutId } from './tasks.interfaces';
 
 Task.instances = [];
 
-/**
- * Tasks memory repository module
- * @module tasks_memory_repository
- */
+const getAll = async (): Promise<Task[]> => Task.instances;
 
-/**
- * Get all tasks
- * @return {Promise<Task[]>} All tasks array
- */
-const getAll = async () => Task.instances;
-
-/**
- * Get task by ID
- * @param {string} id Task ID
- * @return {(Promise<Task>|Error)} Received task or error
- */
-const getById = async (id) => {
+const getById = async (id: string): Promise<Task> => {
     const task = Task.instances.find((_task) => _task.id === id);
 
     if (!task) {
@@ -28,36 +15,13 @@ const getById = async (id) => {
     return task;
 };
 
-/**
- * Create new task
- * @param {Object} taskData Data for task creation
- * @param {string} taskData.title Task title
- * @param {string} taskData.order Task order
- * @param {string} taskData.description Task description
- * @param {string} taskData.userId Task userId
- * @param {string} taskData.boardId Task boardId
- * @param {string} taskData.columnId Task columnId
- * @return {Promise<Task>} Created task
- */
-const create = async (taskData) => {
+const create = async (taskData: ITaskWithoutId): Promise<Task> => {
     const task = await new Task(taskData);
 
     return task;
 };
 
-/**
- * Update task's data
- * @param {string} id Task ID
- * @param {Object} taskData Data for task creation
- * @param {string} taskData.title Task title
- * @param {string} taskData.order Task order
- * @param {string} taskData.description Task description
- * @param {string} taskData.userId Task userId
- * @param {string} taskData.boardId Task boardId
- * @param {string} taskData.columnId Task columnId
- * @return {(Promise<Task>|Error)} Updated task or error
- */
-const update = async (id, newTaskData) => {
+const update = async (id: string, newTaskData: ITaskWithoutId): Promise<Task> => {
     const task = await getById(id);
 
     if (!task) {
@@ -74,19 +38,14 @@ const update = async (id, newTaskData) => {
     return task;
 };
 
-/**
- * Remove task
- * @param {string} id Task ID
- * @return {(Promise<Task>|Error)} Removed task or error
- */
-const remove = async (id) => {
+const remove = async (id: string): Promise<Task> => {
     const removedTask = await getById(id);
 
     if (!removedTask) {
         throw new Error('Task not found');
     }
 
-    return Task.instances.splice(Task.instances.indexOf(removedTask), 1)[0];
+    return Task.instances.splice(Task.instances.indexOf(removedTask), 1)[0]!;
 };
 
-module.exports = { getAll, getById, remove, create, update };
+export { getAll, getById, remove, create, update };

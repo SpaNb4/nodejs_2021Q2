@@ -1,47 +1,15 @@
-const boardsRepo = require('./boards.memory.repository');
+import { IBoardWithoutId } from './boards.interfaces';
+import * as boardsRepo from './boards.memory.repository';
+import Board from './boards.model';
 
-/**
- * Boards service module
- * @module boards_service
- */
+const getAll = async (): Promise<Board[]> => boardsRepo.getAll();
 
-/**
- * Call getAll() function
- * @return {Board[]} All boards array
- */
-const getAll = async () => boardsRepo.getAll();
+const getById = async (id: string): Promise<Board> => boardsRepo.getById(id);
 
-/**
- * Call getById() function
- * @param {string} id Board ID
- * @return {Board} Received board
- */
-const getById = async (id) => boardsRepo.getById(id);
+const create = async (boardData: IBoardWithoutId): Promise<Board> => boardsRepo.create(boardData);
 
-/**
- * Call create() function
- * @param {Object} boardData Data for board creation
- * @param {string} boardData.title Board title
- * @param {column[]} boardData.columns Board columns
- * @return {Board} Created board
- */
-const create = async (boardData) => boardsRepo.create(boardData);
+const update = async (id: string, newBoardData: IBoardWithoutId): Promise<Board> => boardsRepo.update(id, newBoardData);
 
-/**
- * Call update() function
- * @param {string} id Board ID
- * @param {Object} newBoardData New board's data
- * @param {string} newBoardData.title Board title
- * @param {column[]} newBoardData.columns Board columns
- * @return {Board} Updated board
- */
-const update = async (id, newBoardData) => boardsRepo.update(id, newBoardData);
+const remove = async (id: string): Promise<Board> => boardsRepo.remove(id);
 
-/**
- * Call remove() function
- * @param {string} id Board ID
- * @return {Board} Removed board
- */
-const remove = async (id) => boardsRepo.remove(id);
-
-module.exports = { getAll, getById, create, update, remove };
+export { getAll, getById, create, update, remove };

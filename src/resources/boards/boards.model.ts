@@ -1,35 +1,16 @@
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
+import { IColumn } from './boards.interfaces';
 
-/**
- * Column type definition
- * @typedef {Object} column
- * @property {string} id Column ID
- * @property {string} title Column title
- * @property {number} order Column order
- */
+export default class Board {
+    id: string;
+    title: string;
+    columns: IColumn[];
+    static instances: Board[];
 
-/**
- * Board type definition
- */
-class Board {
-    constructor({ title, columns }) {
-        /**
-         * Board id
-         * @type {string}
-         */
-        this.id = uuidv4();
-        /**
-         * Board title
-         * @type {string}
-         */
+    constructor({ id = uuidv4(), title = 'title', columns = [{ title: 'title', order: 1 }] } = {}) {
+        this.id = id;
         this.title = title;
-        /**
-         * Board columns
-         * @type {column[]}
-         */
         this.columns = columns.map((column) => ({ ...column, id: uuidv4() }));
         Board.instances.push(this);
     }
 }
-
-module.exports = Board;

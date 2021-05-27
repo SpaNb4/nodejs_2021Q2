@@ -1,25 +1,13 @@
-const Board = require('./boards.model');
-const tasksRepo = require('../tasks/tasks.memory.repository');
+import Board from './boards.model';
+import Task from '../tasks/tasks.model';
+import * as tasksRepo from '../tasks/tasks.memory.repository';
+import { IBoardWithoutId } from './boards.interfaces';
 
 Board.instances = [];
 
-/**
- * Boards memory repository module
- * @module boards_memory_repository
- */
+const getAll = async (): Promise<Board[]> => Board.instances;
 
-/**
- * Get all boards
- * @return {Promise<Board[]>} All boards array
- */
-const getAll = async () => Board.instances;
-
-/**
- * Get board by ID
- * @param {string} id Board ID
- * @return {(Promise<Board>|Error)} Received board or error
- */
-const getById = async (id) => {
+const getById = async (id: string): Promise<Board> => {
     const board = Board.instances.find((_board) => _board.id === id);
 
     if (!board) {
@@ -29,28 +17,13 @@ const getById = async (id) => {
     return board;
 };
 
-/**
- * Create new board
- * @param {Object} boardData Data for board creation
- * @param {string} boardData.title Board title
- * @param {column[]} boardData.columns Board columns
- * @return {Promise<Board>} Created board
- */
-const create = async (boardData) => {
+const create = async (boardData: IBoardWithoutId): Promise<Board> => {
     const board = await new Board(boardData);
 
     return board;
 };
 
-/**
- * Update board's data
- * @param {string} id Board ID
- * @param {Object} newBoardData New board's data
- * @param {string} newBoardData.title Board title
- * @param {column[]} newBoardData.columns Board columns
- * @return {(Promise<Board>|Error)} Updated board or error
- */
-const update = async (id, newBoardData) => {
+const update = async (id: string, newBoardData: IBoardWithoutId): Promise<Board> => {
     const board = await getById(id);
 
     if (!board) {
@@ -63,12 +36,7 @@ const update = async (id, newBoardData) => {
     return board;
 };
 
-/**
- * Remove board
- * @param {string} id Board ID
- * @return {(Promise<Board>|Error)} Removed board or error
- */
-const remove = async (id) => {
+const remove = async (id: string): Promise<Board> => {
     const removedBoard = await getById(id);
 
     if (!removedBoard) {
@@ -78,14 +46,14 @@ const remove = async (id) => {
     const tasks = await tasksRepo.getAll();
 
     if (tasks.length) {
-        tasks.forEach(async (task) => {
+        tasks.forEach(async (task: Task) => {
             if (task.boardId === id) {
                 await tasksRepo.remove(task.id);
             }
         });
     }
 
-    return Board.instances.splice(Board.instances.indexOf(removedBoard), 1)[0];
+    return Board.instances.splice(Board.instances.indexOf(removedBoard), 1)[0]!;
 };
 
-module.exports = { getAll, getById, remove, create, update };
+export { getAll, getById, remove, create, update };

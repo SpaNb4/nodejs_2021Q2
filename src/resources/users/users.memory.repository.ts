@@ -1,25 +1,13 @@
 import User from './users.model';
-import tasksRepo from '../tasks/tasks.memory.repository';
+import * as tasksRepo from '../tasks/tasks.memory.repository';
+import Task from '../tasks/tasks.model';
+import { IUserWithoutId } from './users.interfaces';
 
 User.instances = [];
 
-/**
- * Users memory repository module
- * @module users_memory_repository
- */
+const getAll = async (): Promise<User[]> => User.instances;
 
-/**
- * Get all users
- * @return {Promise<User[]>} All users array
- */
-const getAll = async () => User.instances;
-
-/**
- * Get user by ID
- * @param {string} id User ID
- * @return {(Promise<User>|Error)} Received user or error
- */
-const getById = async (id) => {
+const getById = async (id: string): Promise<User> => {
     const user = User.instances.find((_user) => _user.id === id);
 
     if (!user) {
@@ -29,30 +17,13 @@ const getById = async (id) => {
     return user;
 };
 
-/**
- * Create new user
- * @param {Object} userData Data for user creation
- * @param {string} userData.name User name
- * @param {string} userData.login User login
- * @param {string} userData.password User password
- * @return {Promise<User>} Created user
- */
-const create = async (userData) => {
+const create = async (userData: IUserWithoutId): Promise<User> => {
     const user = await new User(userData);
 
     return user;
 };
 
-/**
- * Update user's data
- * @param {string} id User ID
- * @param {Object} newUserData New user's data
- * @param {string} newUserData.name User name
- * @param {string} newUserData.login User login
- * @param {string} newUserData.password User password
- * @return {(Promise<User>|Error)} Updated user or error
- */
-const update = async (id, newUserData) => {
+const update = async (id: string, newUserData: IUserWithoutId): Promise<User> => {
     const user = await getById(id);
 
     if (!user) {
@@ -66,11 +37,6 @@ const update = async (id, newUserData) => {
     return user;
 };
 
-/**
- * Remove user
- * @param {string} id User ID
- * @return {(Promise<User>|Error)} Removed user or error
- */
 const remove = async (id: string): Promise<User> => {
     const removedUser = await getById(id);
 
@@ -81,7 +47,7 @@ const remove = async (id: string): Promise<User> => {
     const tasks = await tasksRepo.getAll();
 
     if (tasks.length) {
-        tasks.forEach(async (task) => {
+        tasks.forEach(async (task: Task) => {
             if (task.userId === id) {
                 await tasksRepo.update(task.id, { ...task, userId: null });
             }
