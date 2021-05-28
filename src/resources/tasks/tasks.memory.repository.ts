@@ -15,7 +15,14 @@ const getById = async (id: string): Promise<Task> => {
 };
 
 const create = async (taskData: Task): Promise<Task> => {
-    const task = await new Task(taskData);
+    const task = await new Task({
+        title: taskData.title,
+        order: taskData.order,
+        description: taskData.description,
+        userId: taskData.userId!,
+        boardId: taskData.boardId,
+        columnId: taskData.columnId,
+    });
 
     return task;
 };
