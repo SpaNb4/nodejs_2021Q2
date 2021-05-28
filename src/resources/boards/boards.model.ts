@@ -3,8 +3,11 @@ import { IColumn } from './boards.interfaces';
 
 export default class Board {
     id: string;
+
     title: string;
+
     columns: IColumn[];
+
     static instances: Board[];
 
     constructor({ id = uuidv4(), title = 'title', columns = [{ title: 'title', order: 1 }] } = {}) {

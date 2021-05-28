@@ -1,6 +1,6 @@
 import User from './users.model';
 import * as tasksRepo from '../tasks/tasks.memory.repository';
-import Task from './../tasks/tasks.model';
+import Task from "../tasks/tasks.model";
 
 User.instances = [];
 
