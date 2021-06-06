@@ -1,11 +1,12 @@
-const Board = require('./boards.model');
-const tasksRepo = require('../tasks/tasks.memory.repository');
+import Board from './boards.model';
+import Task from '../tasks/tasks.model';
+import * as tasksRepo from '../tasks/tasks.memory.repository';
 
 Board.instances = [];
 
-const getAll = async () => Board.instances;
+const getAll = async (): Promise<Board[]> => Board.instances;
 
-const getById = async (id) => {
+const getById = async (id: string): Promise<Board> => {
     const board = Board.instances.find((_board) => _board.id === id);
 
     if (!board) {
@@ -15,13 +16,13 @@ const getById = async (id) => {
     return board;
 };
 
-const create = async (boardData) => {
+const create = async (boardData: Board): Promise<Board> => {
     const board = await new Board(boardData);
 
     return board;
 };
 
-const update = async (id, newBoardData) => {
+const update = async (id: string, newBoardData: Board): Promise<Board> => {
     const board = await getById(id);
 
     if (!board) {
@@ -34,7 +35,7 @@ const update = async (id, newBoardData) => {
     return board;
 };
 
-const remove = async (id) => {
+const remove = async (id: string): Promise<Board> => {
     const removedBoard = await getById(id);
 
     if (!removedBoard) {
@@ -44,14 +45,14 @@ const remove = async (id) => {
     const tasks = await tasksRepo.getAll();
 
     if (tasks.length) {
-        tasks.forEach(async (task) => {
+        tasks.forEach(async (task: Task) => {
             if (task.boardId === id) {
                 await tasksRepo.remove(task.id);
             }
         });
     }
 
-    return Board.instances.splice(Board.instances.indexOf(removedBoard), 1)[0];
+    return Board.instances.splice(Board.instances.indexOf(removedBoard), 1)[0]!;
 };
 
-module.exports = { getAll, getById, remove, create, update };
+export { getAll, getById, remove, create, update };

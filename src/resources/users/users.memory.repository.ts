@@ -1,11 +1,12 @@
-const User = require('./user.model');
-const tasksRepo = require('../tasks/tasks.memory.repository');
+import User from './users.model';
+import * as tasksRepo from '../tasks/tasks.memory.repository';
+import Task from "../tasks/tasks.model";
 
 User.instances = [];
 
-const getAll = async () => User.instances;
+const getAll = async (): Promise<User[]> => User.instances;
 
-const getById = async (id) => {
+const getById = async (id: string): Promise<User> => {
     const user = User.instances.find((_user) => _user.id === id);
 
     if (!user) {
@@ -15,13 +16,13 @@ const getById = async (id) => {
     return user;
 };
 
-const create = async (userData) => {
+const create = async (userData: User): Promise<User> => {
     const user = await new User(userData);
 
     return user;
 };
 
-const update = async (id, newUserData) => {
+const update = async (id: string, newUserData: User): Promise<User> => {
     const user = await getById(id);
 
     if (!user) {
@@ -35,7 +36,7 @@ const update = async (id, newUserData) => {
     return user;
 };
 
-const remove = async (id) => {
+const remove = async (id: string): Promise<User> => {
     const removedUser = await getById(id);
 
     if (!removedUser) {
@@ -45,14 +46,14 @@ const remove = async (id) => {
     const tasks = await tasksRepo.getAll();
 
     if (tasks.length) {
-        tasks.forEach(async (task) => {
+        tasks.forEach(async (task: Task) => {
             if (task.userId === id) {
                 await tasksRepo.update(task.id, { ...task, userId: null });
             }
         });
     }
 
-    return User.instances.splice(User.instances.indexOf(removedUser), 1)[0];
+    return User.instances.splice(User.instances.indexOf(removedUser), 1)[0]!;
 };
 
-module.exports = { getAll, getById, remove, create, update };
+export { getAll, getById, remove, create, update };
