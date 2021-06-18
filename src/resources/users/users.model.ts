@@ -1,23 +1,27 @@
+import { Entity, PrimaryColumn, Column, BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { IUserWithoutPassword } from './users.interfaces';
 
-export default class User {
+@Entity()
+export default class User extends BaseEntity {
+    @PrimaryColumn()
     id: string;
 
+    @Column()
     name: string;
 
+    @Column()
     login: string;
 
+    @Column()
     password: string;
 
-    static instances: User[];
-
     constructor({ id = uuidv4(), name = 'USER', login = 'user', password = 'P@55w0rd' } = {}) {
+        super();
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
-        User.instances.push(this);
     }
 
     static toResponse(user: User): IUserWithoutPassword {

@@ -1,13 +1,11 @@
 import User from './users.model';
 import * as tasksRepo from '../tasks/tasks.memory.repository';
-import Task from "../tasks/tasks.model";
+import Task from '../tasks/tasks.model';
 
-User.instances = [];
+const getAll = async (): Promise<User[]> => User.find();
 
-const getAll = async (): Promise<User[]> => User.instances;
-
-const getById = async (id: string): Promise<User> => {
-    const user = User.instances.find((_user) => _user.id === id);
+const getById = async (id: string): Promise<User | undefined> => {
+    const user = await User.findOne(id);
 
     if (!user) {
         throw new Error('User not found');
@@ -19,21 +17,21 @@ const getById = async (id: string): Promise<User> => {
 const create = async (userData: User): Promise<User> => {
     const user = await new User(userData);
 
+    await user.save();
+
     return user;
 };
 
-const update = async (id: string, newUserData: User): Promise<User> => {
-    const user = await getById(id);
+const update = async (id: string, newUserData: User): Promise<User | undefined> => {
+    const user = await User.findOne(id);
 
     if (!user) {
         throw new Error('User not found');
     }
 
-    user.name = newUserData.name;
-    user.login = newUserData.login;
-    user.password = newUserData.password;
+    await User.update(id, newUserData);
 
-    return user;
+    return User.findOne(id);
 };
 
 const remove = async (id: string): Promise<User> => {
@@ -53,7 +51,7 @@ const remove = async (id: string): Promise<User> => {
         });
     }
 
-    return User.instances.splice(User.instances.indexOf(removedUser), 1)[0]!;
+    return User.remove(removedUser);
 };
 
 export { getAll, getById, remove, create, update };
