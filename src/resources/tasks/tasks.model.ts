@@ -1,7 +1,8 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, BaseEntity } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 // eslint-disable-next-line import/no-cycle
 import User from '../users/users.model';
+import Board from '../boards/boards.model';
 
 @Entity()
 export default class Task extends BaseEntity {
@@ -22,11 +23,23 @@ export default class Task extends BaseEntity {
         length: 150,
         nullable: true,
     })
-    @ManyToOne(() => User, (user) => user.id)
     userId: string | null;
+
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        nullable: true,
+    })
+    @JoinColumn({ name: 'userId' })
+    user!: string | null;
 
     @Column()
     boardId: string;
+
+    @ManyToOne(() => Board, (board) => board.id, {
+        onDelete: 'CASCADE',
+    })
+    @JoinColumn({ name: 'boardId' })
+    board!: string;
 
     @Column({
         type: 'varchar',

@@ -22,6 +22,8 @@ const create = async (taskData: Task): Promise<Task> => {
         columnId: taskData.columnId,
     });
 
+    await task.save();
+
     return task;
 };
 

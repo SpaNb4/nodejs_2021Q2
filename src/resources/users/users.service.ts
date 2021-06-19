@@ -7,7 +7,7 @@ const getById = async (id: string): Promise<User> => usersRepo.getById(id);
 
 const create = async (userData: User): Promise<User> => usersRepo.create(userData);
 
-const update = async (id: string, newUserData: User): Promise<User | undefined> => usersRepo.update(id, newUserData);
+const update = async (id: string, newUserData: User): Promise<User> => usersRepo.update(id, newUserData);
 
 const remove = async (id: string): Promise<User> => usersRepo.remove(id);
 

@@ -1,19 +1,22 @@
+import { Entity, PrimaryColumn, Column as ColumnORM, BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { IColumn } from './boards.interfaces';
+import Column from '../columns/columns.model';
 
-export default class Board {
+@Entity()
+export default class Board extends BaseEntity {
+    @PrimaryColumn()
     id: string;
 
+    @ColumnORM()
     title: string;
 
-    columns: IColumn[];
+    @ColumnORM('jsonb')
+    columns: Column[];
 
-    static instances: Board[];
-
-    constructor({ id = uuidv4(), title = 'title', columns = [{ title: 'title', order: 1 }] } = {}) {
+    constructor({ id = uuidv4(), title = 'title', columns = [{ id: '1', title: 'title', order: 1 }] } = {}) {
+        super();
         this.id = id;
         this.title = title;
-        this.columns = columns.map((column) => ({ ...column, id: uuidv4() }));
-        Board.instances.push(this);
+        this.columns = <Column[]>columns;
     }
 }
