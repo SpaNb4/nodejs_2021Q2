@@ -1,21 +1,39 @@
+import { Entity, PrimaryColumn, Column, ManyToOne, BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+// eslint-disable-next-line import/no-cycle
+import User from '../users/users.model';
 
-class Task {
+@Entity()
+export default class Task extends BaseEntity {
+    @PrimaryColumn()
     id: string;
 
+    @Column()
     title: string;
 
+    @Column()
     order: number;
 
+    @Column()
     description: string;
 
+    @Column({
+        type: 'varchar',
+        length: 150,
+        nullable: true,
+    })
+    @ManyToOne(() => User, (user) => user.id)
     userId: string | null;
 
+    @Column()
     boardId: string;
 
+    @Column({
+        type: 'varchar',
+        length: 150,
+        nullable: true,
+    })
     columnId: string;
-
-    static instances: Task[];
 
     constructor({
         id = uuidv4(),
@@ -26,6 +44,7 @@ class Task {
         boardId = 'boardId',
         columnId = 'columnId',
     } = {}) {
+        super();
         this.id = id;
         this.title = title;
         this.order = order;
@@ -33,8 +52,5 @@ class Task {
         this.userId = userId;
         this.boardId = boardId;
         this.columnId = columnId;
-        Task.instances.push(this);
     }
 }
-
-export default Task;

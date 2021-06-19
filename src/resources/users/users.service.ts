@@ -3,7 +3,7 @@ import User from './users.model';
 
 const getAll = async (): Promise<User[]> => usersRepo.getAll();
 
-const getById = async (id: string): Promise<User | undefined> => usersRepo.getById(id);
+const getById = async (id: string): Promise<User> => usersRepo.getById(id);
 
 const create = async (userData: User): Promise<User> => usersRepo.create(userData);
 

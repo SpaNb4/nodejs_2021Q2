@@ -1,6 +1,7 @@
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { POSTGRES_DB, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_USER } from './config';
 import User from '../resources/users/users.model';
+import Task from '../resources/tasks/tasks.model';
 
 const typeOrmConfig: PostgresConnectionOptions = {
     type: 'postgres',
@@ -9,7 +10,7 @@ const typeOrmConfig: PostgresConnectionOptions = {
     username: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
     database: POSTGRES_DB,
-    entities: [User],
+    entities: [User, Task],
     synchronize: true,
     logging: false,
 };
