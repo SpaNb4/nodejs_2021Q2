@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export default class Column extends BaseEntity {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id: string;
 
     @ColumnORM()

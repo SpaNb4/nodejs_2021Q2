@@ -12,8 +12,11 @@ const typeOrmConfig: PostgresConnectionOptions = {
     password: POSTGRES_PASSWORD,
     database: POSTGRES_DB,
     entities: [User, Task, Board],
-    synchronize: true,
     logging: false,
+    migrations: ['src/migrations/**/*.{ts,js}'],
+    cli: {
+        migrationsDir: 'src/migrations',
+    },
 };
 
-export { typeOrmConfig };
+export default typeOrmConfig;

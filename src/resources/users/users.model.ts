@@ -6,7 +6,7 @@ import Task from '../tasks/tasks.model';
 
 @Entity()
 export default class User extends BaseEntity {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id: string;
 
     @Column()

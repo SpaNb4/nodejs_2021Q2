@@ -6,7 +6,7 @@ import Board from '../boards/boards.model';
 
 @Entity()
 export default class Task extends BaseEntity {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id: string;
 
     @Column()
@@ -20,7 +20,6 @@ export default class Task extends BaseEntity {
 
     @Column({
         type: 'varchar',
-        length: 150,
         nullable: true,
     })
     userId: string | null;
