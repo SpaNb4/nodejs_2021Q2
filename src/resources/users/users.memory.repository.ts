@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import User from './users.model';
 import * as tasksRepo from '../tasks/tasks.memory.repository';
 import Task from '../tasks/tasks.model';
@@ -15,10 +16,15 @@ const getById = async (id: string): Promise<User | undefined> => {
 };
 
 const create = async (userData: User): Promise<User> => {
+    if (userData.password) {
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
+        const user = await new User({ ...userData, password: hashedPassword });
+        await user.save();
+        return user;
+    }
+
     const user = await new User(userData);
-
     await user.save();
-
     return user;
 };
 
