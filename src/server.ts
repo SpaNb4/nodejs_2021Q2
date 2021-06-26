@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import { typeOrmConfig } from './common/ormconfig';
+import typeOrmConfig from './common/ormconfig';
 import { PORT } from './common/config';
 
 import app from './app';

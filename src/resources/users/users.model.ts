@@ -1,10 +1,12 @@
-import { Entity, PrimaryColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToMany, BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { IUserWithoutPassword } from './users.interfaces';
+// eslint-disable-next-line import/no-cycle
+import Task from '../tasks/tasks.model';
 
 @Entity()
 export default class User extends BaseEntity {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id: string;
 
     @Column()
@@ -15,6 +17,9 @@ export default class User extends BaseEntity {
 
     @Column()
     password: string;
+
+    @OneToMany(() => Task, (task) => task.userId)
+    tasks!: Task[];
 
     constructor({ id = uuidv4(), name = 'USER', login = 'user', password = 'P@55w0rd' } = {}) {
         super();
