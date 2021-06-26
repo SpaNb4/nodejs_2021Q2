@@ -3,12 +3,12 @@ import * as loginService from './login.service';
 
 const router = express.Router();
 
-router.route('/').post(async (req: Request, res: Response) => {
+router.route('/').post(async (req: Request, res: Response, next) => {
     try {
         const token = await loginService.getToken(req.body);
         res.json({ token });
     } catch (err) {
-        res.status(404).json(err.message);
+        next(err);
     }
 });
 

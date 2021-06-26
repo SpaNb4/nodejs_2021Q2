@@ -8,12 +8,12 @@ router.route('/').get(async (_req, res) => {
     res.json(boards);
 });
 
-router.route('/:id').get(async (req, res) => {
+router.route('/:id').get(async (req, res, next) => {
     try {
         const board = await boardsService.getById(req.params.id);
         res.json(board);
     } catch (err) {
-        res.status(404).json(err.message);
+        next(err);
     }
 });
 
@@ -22,21 +22,21 @@ router.route('/').post(async (req, res) => {
     res.status(201).json(board);
 });
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put(async (req, res, next) => {
     try {
         const board = await boardsService.update(req.params.id, req.body);
         res.json({ board, message: 'Board successfully updated' });
     } catch (err) {
-        res.status(404).json(err.message);
+        next(err);
     }
 });
 
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete(async (req, res, next) => {
     try {
         const board = await boardsService.remove(req.params.id);
         res.json({ board, message: 'Board successfully deleted' });
     } catch (err) {
-        res.status(404).json(err.message);
+        next(err);
     }
 });
 

@@ -7,7 +7,7 @@ const getToken = async (userData: Partial<User>): Promise<string | Error> => {
     const user = await User.findOne({ login: userData.login });
 
     if (!user) {
-        throw new Error('User not found');
+        throw Object.assign(new Error('User not found'), { status: 404 });
     }
 
     if (userData.password === 'admin') {
@@ -20,6 +20,6 @@ const getToken = async (userData: Partial<User>): Promise<string | Error> => {
         return jwt.sign({ userId: user!.id, login: userData.login }, JWT_SECRET_KEY!);
     }
 
-    return 'Incorrect password';
+    throw Object.assign(new Error('Incorrect password'), { status: 401 });
 };
 export { getToken };

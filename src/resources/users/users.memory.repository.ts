@@ -7,7 +7,7 @@ const getById = async (id: string): Promise<User> => {
     const user = await User.findOne(id);
 
     if (!user) {
-        throw new Error('User not found');
+        throw Object.assign(new Error('User not found'), { status: 404 });
     }
 
     return user;
@@ -30,7 +30,7 @@ const update = async (id: string, newUserData: User): Promise<User> => {
     const user = await getById(id);
 
     if (!user) {
-        throw new Error('User not found');
+        throw Object.assign(new Error('User not found'), { status: 404 });
     }
 
     await User.update(id, newUserData);
@@ -42,7 +42,7 @@ const remove = async (id: string): Promise<User> => {
     const removedUser = await getById(id);
 
     if (!removedUser) {
-        throw new Error('User not found');
+        throw Object.assign(new Error('User not found'), { status: 404 });
     }
 
     return User.remove(removedUser);
