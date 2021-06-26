@@ -16,12 +16,12 @@ const getById = async (id: string): Promise<User> => {
 const create = async (userData: User): Promise<User> => {
     if (userData.password) {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
-        const user = await new User({ ...userData, password: hashedPassword });
+        const user = new User({ ...userData, password: hashedPassword });
         await user.save();
         return user;
     }
 
-    const user = await new User(userData);
+    const user = new User(userData);
     await user.save();
     return user;
 };

@@ -14,6 +14,7 @@ const typeOrmConfig: PostgresConnectionOptions = {
     entities: [User, Task, Board],
     logging: false,
     migrations: ['src/migrations/**/*.{ts,js}'],
+    migrationsRun: true,
     cli: {
         migrationsDir: 'src/migrations',
     },
