@@ -12,7 +12,7 @@ router.route('/').get(async (_req, res) => {
 router.route('/:id').get(async (req, res) => {
     try {
         const user = await usersService.getById(req.params.id);
-        res.json(User.toResponse(user));
+        res.json(User.toResponse(user!));
     } catch (err) {
         res.status(404).json(err.message);
     }

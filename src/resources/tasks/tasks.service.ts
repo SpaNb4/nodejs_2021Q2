@@ -7,7 +7,7 @@ const getById = async (id: string): Promise<Task> => tasksRepo.getById(id);
 
 const create = async (taskData: Task): Promise<Task> => tasksRepo.create(taskData);
 
-const update = async (id: string, newTaskData: Task): Promise<Task> => tasksRepo.update(id, newTaskData);
+const update = async (id: string, newTaskData: Task): Promise<Task | undefined> => tasksRepo.update(id, newTaskData);
 
 const remove = async (id: string): Promise<Task> => tasksRepo.remove(id);
 

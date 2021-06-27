@@ -1,11 +1,9 @@
 import Task from './tasks.model';
 
-Task.instances = [];
-
-const getAll = async (): Promise<Task[]> => Task.instances;
+const getAll = async (): Promise<Task[]> => Task.find();
 
 const getById = async (id: string): Promise<Task> => {
-    const task = Task.instances.find((_task) => _task.id === id);
+    const task = await Task.findOne(id);
 
     if (!task) {
         throw new Error('Task not found');
@@ -24,6 +22,8 @@ const create = async (taskData: Task): Promise<Task> => {
         columnId: taskData.columnId,
     });
 
+    await task.save();
+
     return task;
 };
 
@@ -34,12 +34,7 @@ const update = async (id: string, newTaskData: Task): Promise<Task> => {
         throw new Error('Task not found');
     }
 
-    task.title = newTaskData.title;
-    task.order = newTaskData.order;
-    task.description = newTaskData.description;
-    task.userId = newTaskData.userId;
-    task.boardId = newTaskData.boardId;
-    task.columnId = newTaskData.columnId;
+    await Task.update(id, newTaskData);
 
     return task;
 };
@@ -51,7 +46,7 @@ const remove = async (id: string): Promise<Task> => {
         throw new Error('Task not found');
     }
 
-    return Task.instances.splice(Task.instances.indexOf(removedTask), 1)[0]!;
+    return Task.remove(removedTask);
 };
 
 export { getAll, getById, remove, create, update };
