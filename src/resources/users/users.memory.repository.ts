@@ -14,6 +14,12 @@ const getById = async (id: string): Promise<User> => {
 };
 
 const create = async (userData: User): Promise<User> => {
+    const findUser = await User.findOne({ login: userData.login });
+
+    if (findUser) {
+        throw Object.assign(new Error('User already exists'), { status: 409 });
+    }
+
     if (userData.password) {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const user = new User({ ...userData, password: hashedPassword });

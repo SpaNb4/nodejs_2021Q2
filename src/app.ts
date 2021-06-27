@@ -30,11 +30,13 @@ app.use('/', (req, res, next) => {
     next();
 });
 
-app.use('/users', authenticateToken, userRouter);
-app.use('/boards', authenticateToken, boardRouter);
-app.use('/boards/:id/tasks/', authenticateToken, taskRouter);
-
 app.use('/login', loginRouter);
+
+app.use(authenticateToken);
+
+app.use('/users', userRouter);
+app.use('/boards', boardRouter);
+app.use('/boards/:id/tasks/', taskRouter);
 
 app.use(errorHandler);
 
