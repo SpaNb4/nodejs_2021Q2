@@ -1,8 +1,7 @@
 import { Entity, PrimaryColumn, Column, OneToMany, BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import Task from '../tasks/task.entity';
-// import { IUserWithoutPassword } from './users.interfaces';
-// eslint-disable-next-line import/no-cycle
+import { IUserWithoutPassword } from './users.interface';
 
 @Entity()
 export default class User extends BaseEntity {
@@ -29,8 +28,8 @@ export default class User extends BaseEntity {
         this.password = password;
     }
 
-    //   static toResponse(user: User): IUserWithoutPassword {
-    //     const { id, name, login } = user;
-    //     return { id, name, login };
-    //   }
+    static toResponse(user: User): IUserWithoutPassword {
+        const { id, name, login } = user;
+        return { id, name, login };
+    }
 }

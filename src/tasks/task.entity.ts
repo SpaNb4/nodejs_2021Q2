@@ -1,6 +1,6 @@
 import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-// eslint-disable-next-line import/no-cycle
+import Board from '../boards/board.entity';
 import User from '../users/user.entity';
 
 @Entity()
