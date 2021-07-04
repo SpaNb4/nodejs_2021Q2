@@ -1,11 +1,12 @@
 import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import Board from '../boards/board.entity';
+// eslint-disable-next-line import/no-cycle
 import User from '../users/user.entity';
 
 @Entity()
 export default class Task extends BaseEntity {
-    @PrimaryColumn('uuid')
+    @PrimaryColumn()
     id: string;
 
     @Column()

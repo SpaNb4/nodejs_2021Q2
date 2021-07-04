@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import User from './user.entity';
+import { IUserWithoutPassword } from './users.interface';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -7,27 +8,30 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Post()
-    create(@Body() userData: User) {
-        return this.usersService.create(userData);
+    async create(@Body() userData: User): Promise<IUserWithoutPassword> {
+        const user = await this.usersService.create(userData);
+        return User.toResponse(user);
     }
 
     @Get()
-    findAll() {
-        return this.usersService.findAll();
+    async findAll(): Promise<IUserWithoutPassword[]> {
+        const users = await this.usersService.findAll();
+        return users.map(User.toResponse);
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.usersService.findOne(id);
+    async findOne(@Param('id') id: string): Promise<IUserWithoutPassword> {
+        const user = await this.usersService.findOne(id);
+        return User.toResponse(user);
     }
 
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() newUserData: User) {
+    @Put(':id')
+    update(@Param('id') id: string, @Body() newUserData: User): Promise<User> {
         return this.usersService.update(id, newUserData);
     }
 
     @Delete(':id')
-    delete(@Param('id') id: string) {
+    delete(@Param('id') id: string): Promise<User> {
         return this.usersService.delete(id);
     }
 }

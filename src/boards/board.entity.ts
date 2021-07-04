@@ -4,7 +4,7 @@ import Column from '../columns/columns.model';
 
 @Entity()
 export default class Board extends BaseEntity {
-    @PrimaryColumn('uuid')
+    @PrimaryColumn()
     id: string;
 
     @ColumnORM()

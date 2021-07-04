@@ -1,49 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import User from './user.entity';
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-    constructor() {}
+    async create(userData: User): Promise<User> {
+        // const findUser = await User.findOne({ login: userData.login });
 
-    async create(userData: User) {
-        const findUser = await User.findOne({ login: userData.login });
+        // if (findUser) {
+        // throw new HttpException('User already exists', HttpStatus.CONFLICT);
+        // }
 
-        if (findUser) {
-            throw Object.assign(new Error('User already exists'), { status: 409 });
-        }
-
-        if (userData.password) {
-            const hashedPassword = await bcrypt.hash(userData.password, 10);
-            const user = new User({ ...userData, password: hashedPassword });
-            await user.save();
-            return user;
-        }
+        // if (userData.password) {
+        //     const hashedPassword = await bcrypt.hash(userData.password, 10);
+        //     const user = new User({ ...userData, password: hashedPassword });
+        //     await user.save();
+        //     return user;
+        // }
 
         const user = new User(userData);
         await user.save();
         return user;
     }
 
-    async findAll() {
+    async findAll(): Promise<User[]> {
         return User.find();
     }
 
-    async findOne(id: string) {
+    async findOne(id: string): Promise<User> {
         const user = await User.findOne(id);
 
         if (!user) {
-            throw Object.assign(new Error('User not found'), { status: 404 });
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
 
         return user;
     }
 
-    async update(id: string, newUserData: User) {
+    async update(id: string, newUserData: User): Promise<User> {
         const user = await this.findOne(id);
 
         if (!user) {
-            throw Object.assign(new Error('User not found'), { status: 404 });
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
 
         await User.update(id, newUserData);
@@ -51,11 +49,11 @@ export class UsersService {
         return user;
     }
 
-    async delete(id: string) {
+    async delete(id: string): Promise<User> {
         const removedUser = await this.findOne(id);
 
         if (!removedUser) {
-            throw Object.assign(new Error('User not found'), { status: 404 });
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
 
         return User.remove(removedUser);

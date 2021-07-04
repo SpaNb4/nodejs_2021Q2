@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import Board from './board.entity';
 import { BoardsService } from './boards.service';
 
@@ -7,27 +7,27 @@ export class BoardsController {
     constructor(private readonly boardsService: BoardsService) {}
 
     @Post()
-    create(@Body() boardData: Board) {
+    create(@Body() boardData: Board): Promise<Board> {
         return this.boardsService.create(boardData);
     }
 
     @Get()
-    findAll() {
+    findAll(): Promise<Board[]> {
         return this.boardsService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
+    findOne(@Param('id') id: string): Promise<Board> {
         return this.boardsService.findOne(id);
     }
 
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() newBoardData: Board) {
+    @Put(':id')
+    update(@Param('id') id: string, @Body() newBoardData: Board): Promise<Board> {
         return this.boardsService.update(id, newBoardData);
     }
 
     @Delete(':id')
-    delete(@Param('id') id: string) {
+    delete(@Param('id') id: string): Promise<Board> {
         return this.boardsService.delete(id);
     }
 }

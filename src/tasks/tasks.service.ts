@@ -1,11 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import Task from './task.entity';
 
 @Injectable()
 export class TasksService {
-    constructor() {}
-
-    async create(taskData: Task) {
+    async create(taskData: Partial<Task>): Promise<Task> {
         const task = new Task({
             title: taskData.title,
             order: taskData.order,
@@ -20,25 +18,25 @@ export class TasksService {
         return task;
     }
 
-    async findAll() {
+    async findAll(): Promise<Task[]> {
         return Task.find();
     }
 
-    async findOne(id: string) {
+    async findOne(id: string): Promise<Task> {
         const task = await Task.findOne(id);
 
         if (!task) {
-            throw Object.assign(new Error('Task not found'), { status: 404 });
+            throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
         }
 
         return task;
     }
 
-    async update(id: string, newTaskData: Task) {
+    async update(id: string, newTaskData: Task): Promise<Task> {
         const task = await this.findOne(id);
 
         if (!task) {
-            throw Object.assign(new Error('Task not found'), { status: 404 });
+            throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
         }
 
         await Task.update(id, newTaskData);
@@ -46,11 +44,11 @@ export class TasksService {
         return task;
     }
 
-    async delete(id: string) {
+    async delete(id: string): Promise<Task> {
         const removedTask = await this.findOne(id);
 
         if (!removedTask) {
-            throw Object.assign(new Error('Task not found'), { status: 404 });
+            throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
         }
 
         return Task.remove(removedTask);
