@@ -2,7 +2,6 @@ import { ErrorRequestHandler } from 'express';
 import { logger } from './logger';
 
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
-    console.log(err);
-    logger.error(`${err} Internal Server Error`);
-    res.status(500).send('Oops, something broke!');
+    logger.error(`${err.status} ${err.message}`);
+    res.status(err.status || 500).json({ status: err.status, message: err.message });
 };

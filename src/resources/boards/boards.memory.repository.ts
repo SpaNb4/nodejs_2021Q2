@@ -6,7 +6,7 @@ const getById = async (id: string): Promise<Board> => {
     const board = await Board.findOne(id);
 
     if (!board) {
-        throw new Error('Board not found');
+        throw Object.assign(new Error('Board not found'), { status: 404 });
     }
 
     return board;
@@ -24,7 +24,7 @@ const update = async (id: string, newBoardData: Board): Promise<Board> => {
     const board = await getById(id);
 
     if (!board) {
-        throw new Error('Board not found');
+        throw Object.assign(new Error('Board not found'), { status: 404 });
     }
 
     await Board.update(id, newBoardData);
@@ -36,7 +36,7 @@ const remove = async (id: string): Promise<Board> => {
     const removedBoard = await getById(id);
 
     if (!removedBoard) {
-        throw new Error('Board not found');
+        throw Object.assign(new Error('Board not found'), { status: 404 });
     }
 
     return Board.remove(removedBoard);

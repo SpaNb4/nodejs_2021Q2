@@ -9,12 +9,12 @@ router.route('/').get(async (_req, res) => {
     res.json(tasks);
 });
 
-router.route('/:id').get(async (req, res) => {
+router.route('/:id').get(async (req, res, next) => {
     try {
         const task = await tasksService.getById(req.params.id);
         res.json(task);
     } catch (err) {
-        res.status(404).json(err.message);
+        next(err);
     }
 });
 
@@ -24,21 +24,21 @@ router.route('/').post(async (req: Request, res) => {
     res.status(201).json(task);
 });
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put(async (req, res, next) => {
     try {
         const task = await tasksService.update(req.params.id, req.body);
         res.json({ task, message: 'Task successfully updated' });
     } catch (err) {
-        res.status(404).json(err.message);
+        next(err);
     }
 });
 
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete(async (req, res, next) => {
     try {
         const task = await tasksService.remove(req.params.id);
         res.json({ task, message: 'Task successfully deleted' });
     } catch (err) {
-        res.status(404).json(err.message);
+        next(err);
     }
 });
 

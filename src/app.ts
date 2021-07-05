@@ -6,9 +6,11 @@ import YAML from 'yamljs';
 import userRouter from './resources/users/users.router';
 import boardRouter from './resources/boards/boards.router';
 import taskRouter from './resources/tasks/tasks.router';
+import loginRouter from './resources/login/login.router';
 import { morganLog } from './logger/logger';
 import { errorHandler } from './logger/unhandledErrorsHandler';
 import handleException from './logger/uncaughtErrorsHandler';
+import authenticateToken from './common/authenticate';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -27,6 +29,10 @@ app.use('/', (req, res, next) => {
     }
     next();
 });
+
+app.use('/login', loginRouter);
+
+app.use(authenticateToken);
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
