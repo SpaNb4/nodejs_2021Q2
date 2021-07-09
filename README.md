@@ -16,6 +16,4 @@ git clone {repository URL}
 
 ```
 docker compose up
-npm run migration-generate 'migration name'
-npm run migration run
 ```
